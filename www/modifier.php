@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nouveauTitre === '') {
         $erreur = 'Le titre ne peut pas être vide.';
     } else {
-        $bdd = new SQLite3('../data/db-cosmodrome.db');
+        $bdd = new SQLite3('../data/db-portfolio.db');
 
         // Mise à jour du titre
         $stmt = $bdd->prepare('UPDATE pages SET titre = :titre WHERE id = :id');

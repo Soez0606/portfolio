@@ -10,7 +10,7 @@ if (!isset($_GET['id'])) {
 $pageId = intval($_GET['id']);
 
 // Suppression dans la base SQLite
-$bdd = new SQLite3('../data/db-cosmodrome.db');
+$bdd = new SQLite3('../data/db-portfolio.db');
 
 // Supprimer le contenu lié
 $stmt1 = $bdd->prepare('DELETE FROM contenu WHERE page_id = :pageId');
