@@ -75,6 +75,46 @@ class BDD
     }
 
     /**
+     * Met à jour le titre d'une page
+     */
+    public static function updatePageTitle(int $id, string $titre): void
+    {
+        $db = new SQLite3(self::$cheminDeLaBDD);
+        $stmt = $db->prepare("UPDATE pages SET titre = :titre WHERE id = :id");
+        $stmt->bindValue(':titre', $titre, SQLITE3_TEXT);
+        $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+        $stmt->execute();
+    }
+
+    /**
+     * Met à jour le paragraphe d'un contenu
+     */
+    public static function updateContenuParagraphe(int $id, string $texte): void
+    {
+        $db = new SQLite3(self::$cheminDeLaBDD);
+        $stmt = $db->prepare("UPDATE contenu SET paragraphe = :paragraphe WHERE id = :id");
+        $stmt->bindValue(':paragraphe', $texte, SQLITE3_TEXT);
+        $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+        $stmt->execute();
+    }
+
+    /**
+     * Supprime une page et son contenu lié
+     */
+    public static function deletePage(int $pageId): void
+    {
+        $db = new SQLite3(self::$cheminDeLaBDD);
+
+        $stmt1 = $db->prepare('DELETE FROM contenu WHERE page_id = :pageId');
+        $stmt1->bindValue(':pageId', $pageId, SQLITE3_INTEGER);
+        $stmt1->execute();
+
+        $stmt2 = $db->prepare('DELETE FROM pages WHERE id = :pageId');
+        $stmt2->bindValue(':pageId', $pageId, SQLITE3_INTEGER);
+        $stmt2->execute();
+    }
+
+    /**
      * Authentification admin
      */
     static public function authenticateUser(string $username, string $password): bool

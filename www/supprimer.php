@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: log_admin.php");
+    exit;
+}
+
 require_once '../model/BDD.php';
 
 use Model\BDD;
@@ -9,18 +16,8 @@ if (!isset($_GET['id'])) {
 
 $pageId = intval($_GET['id']);
 
-// Suppression dans la base SQLite
-$bdd = new SQLite3('../data/db-portfolio.db');
-
-// Supprimer le contenu lié
-$stmt1 = $bdd->prepare('DELETE FROM contenu WHERE page_id = :pageId');
-$stmt1->bindValue(':pageId', $pageId, SQLITE3_INTEGER);
-$stmt1->execute();
-
-// Supprimer la page elle-même
-$stmt2 = $bdd->prepare('DELETE FROM pages WHERE id = :pageId');
-$stmt2->bindValue(':pageId', $pageId, SQLITE3_INTEGER);
-$stmt2->execute();
+// Suppression via BDD.php
+BDD::deletePage($pageId);
 
 header('Location: backoffice.php');
 exit;

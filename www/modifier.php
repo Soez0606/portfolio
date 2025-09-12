@@ -7,6 +7,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: log_admin.php");
     exit;
 }
+
 require_once '../model/BDD.php';
 require_once '../model/Classes.php';
 
@@ -18,10 +19,11 @@ if (!isset($_GET['id'])) {
 
 $pageId = intval($_GET['id']);
 
-
+// Récupérer la hiérarchie des pages
 $pages = BDD::getPagesHierarchy();
 $hierarchy = BDD::buildHierarchy($pages);
 
+// Fonction utilitaire pour trouver une page par ID
 function findPageById(array $pages, int $id)
 {
     foreach ($pages as $page) {
@@ -44,9 +46,10 @@ if (!$page) {
     die('Page introuvable.');
 }
 
-
+// Récupérer les contenus liés à cette page
 $contenus = BDD::getContenuByPageId($pageId);
 
+// Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nouveauTitre = $_POST['titre'] ?? '';
     $paragraphes = $_POST['paragraphes'] ?? [];
@@ -54,28 +57,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($nouveauTitre === '') {
         $erreur = 'Le titre ne peut pas être vide.';
     } else {
-        $bdd = new SQLite3('../data/db-portfolio.db');
-
         // Mise à jour du titre
-        $stmt = $bdd->prepare('UPDATE pages SET titre = :titre WHERE id = :id');
-        $stmt->bindValue(':titre', $nouveauTitre, SQLITE3_TEXT);
-        $stmt->bindValue(':id', $pageId, SQLITE3_INTEGER);
-        $stmt->execute();
+        BDD::updatePageTitle($pageId, $nouveauTitre);
 
         // Mise à jour des paragraphes
         foreach ($paragraphes as $contenuId => $texte) {
-            $stmt2 = $bdd->prepare('UPDATE contenu SET paragraphe = :paragraphe WHERE id = :id');
-            $stmt2->bindValue(':paragraphe', $texte, SQLITE3_TEXT);
-            $stmt2->bindValue(':id', $contenuId, SQLITE3_INTEGER);
-            $stmt2->execute();
+            BDD::updateContenuParagraphe($contenuId, $texte);
         }
 
         header('Location: backoffice.php');
         exit;
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
