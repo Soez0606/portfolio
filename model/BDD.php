@@ -5,7 +5,7 @@ use SQLite3;
 
 class BDD
 {
-    private static string $cheminDeLaBDD = '../data/db-cosmodrome.db';
+    private static string $cheminDeLaBDD = '../data/db-portfolio.db';
 
     /**
      * Récupère toutes les pages avec leur hiérarchie

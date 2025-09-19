@@ -1,10 +1,9 @@
 <?php
 
 require_once '../model/BDD.php';
-require_once '../model/Classes.php';
+require_once '../model/classes.php';
 
 $bdd = new SQLite3('../data/db-portfolio.db');
-
 
 $username = 'admin';
 $motDePasseClair = 'admin';
@@ -18,3 +17,4 @@ $requete->bindValue(':username', $username, SQLITE3_TEXT);
 $requete->execute();
 
 echo "Mot de passe haché et mis à jour pour l'utilisateur $username.\n";
+

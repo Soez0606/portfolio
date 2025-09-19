@@ -43,8 +43,6 @@ $pageHierarchy = BDD::buildHierarchy($pages);
         </header>
 
         <main>
-            <h2>Bienvenue sur mon portfolio</h2>
-            <p>Explorez mes projets et réalisations.</p>
         </main>
 
         <footer>

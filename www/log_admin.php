@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Admin</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="styles_log_admin.css">
+    <link rel="stylesheet" href="style_log.css">
 </head>
 
 <body>
